@@ -1,0 +1,81 @@
+---
+title: "Caso Desempleo vs Homicidios"
+author: "Mauricio Pinzon"
+date: '2022-05-09'
+output: 
+  html_document: 
+    df_print: kable
+---
+```{r}
+library(readxl)
+caso <- read_excel("C:/ALL/Personal/Maestria/01_Simulacion_Estadística/Ultima actividad/Caso/caso.xlsx")
+
+```
+
+
+### Planteamiento de la hipótesis
+
+A mayor desempleo mayor violencia
+
+## a.) Gráfica de Dispersión
+
+```{r message=FALSE, warning=FALSE}
+attach(caso)
+plot(desempleo, homicidios , main = "Desempleo vs Homicidios", xlab = "% Desempleo", ylab = "Tasa homicidios cada 100mil habit.", col = "blue"
+      , pch = 18
+)
+```
+### Análisis:
+
+La gráfica de dispersión nos indica que la relación es directa y no lineal.
+
+
+## b.) Coeficiente de Correlación
+
+```{r message=FALSE, warning=FALSE}
+cor(desempleo,homicidios)
+```
+### Análisis:
+
+El resultado del coeficiente de correlación en 96% nos indica que hay una relación muy fuerte entre el desempleo y los homicidios.Es decir que si se logra reducir el desempleo se esperaria que los homicidios disminuyan.
+
+## c.) Regresión Lineal
+
+```{r message=FALSE, warning=FALSE}
+mod = lm(homicidios~desempleo)
+summary(mod)
+```
+### Análisis:
+
+La estimación estándar me indica que si se aumenta en 1% la tasa de desempleo los homicidios aumentarían en 63 casos por cada 100.000 habitante. El valor p es significativo. El modelo logra explicar el 92.32% de los homicidios.
+
+
+
+## d.) Supuestos
+
+```{r message=FALSE, warning=FALSE}
+par(mfrow=c(2,2))
+plot(mod)
+```
+### Análisis:
+
+No se está cumpliendo el supuesto de aleatoriedad en los errores.El modelo se puede mejorar. 
+
+
+## e.) Predict
+
+
+```{r}
+predict(mod,newdata = list(desempleo=11))
+```
+### Análisis:
+
+Si el desempleo se logra disminuir en un 11% se espera que la tasa de homicidios disminuya a 75.17 casos por cada 100.000 habitantes.
+
+
+
+
+
+
+
+
